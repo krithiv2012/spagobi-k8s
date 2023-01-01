@@ -3,7 +3,7 @@ kind: StatefulSet
 metadata:
   name: spagobi-mysql
   labels:
-    app: spagobi
+    app: spagobi-mysql
 spec:
   serviceName: spagobi-mysql-svc
   updateStrategy:
