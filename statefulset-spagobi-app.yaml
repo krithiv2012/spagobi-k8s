@@ -20,7 +20,7 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
       - name: spagobi
-        image: spagobilabs/spagobi
+        image: spagobilabs/spagobi:all-in-one
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
