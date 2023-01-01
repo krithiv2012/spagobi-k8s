@@ -61,7 +61,7 @@ spec:
   # do not use these in production until ssd GCEPersistentDisk or other ssd pd
   volumeClaimTemplates:
   - metadata:
-      name: spagobi-data
+      name: spagobi-mysql-storage
     spec:
       accessModes: [ "ReadWriteOnce" ]
       storageClassName: local-path
