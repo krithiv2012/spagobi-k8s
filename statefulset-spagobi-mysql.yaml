@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: spagobi-mysql-svc
+  name: spagobi-mysql-svc1
   labels:
-    name: spagobi-mysql-svc
+    name: spagobi-mysql-svc1
 spec:
   ports:
   - port: 3306
