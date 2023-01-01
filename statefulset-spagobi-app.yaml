@@ -27,6 +27,11 @@ spec:
         env:
         - name: DB_ENV_MYSQL_USER
           value: "spagobiuser"
+        - name: DB_ENV_MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-pass
+              key: password
         - name: DB_ENV_MYSQL_PASSWORD
           valueFrom:
             secretKeyRef:
