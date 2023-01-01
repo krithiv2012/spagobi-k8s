@@ -3,6 +3,6 @@ kind: Secret
 metadata:
   name: mysql-pass
 type: Opaque
-data:
+ata:
   PASSWORD: ${{MY_SQL_SECTRET}}
 ---
