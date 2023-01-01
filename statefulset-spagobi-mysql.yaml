@@ -5,10 +5,9 @@ metadata:
   labels:
     name: spagobi-mysql-svc1
 spec:
+  type: ClusterIp
   ports:
   - port: 3306
-    targetPort: 3306
-  clusterIP: None
   selector:
     app: spagobi-mysql
 ---
