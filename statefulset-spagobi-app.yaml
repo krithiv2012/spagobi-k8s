@@ -26,7 +26,7 @@ spec:
         - containerPort: 8080
         env:
         - name: DB_ENV_MYSQL_USER
-          value: "spagobiuser@192.168.18.131"
+          value: "spagobiuser"
         - name: DB_ENV_MYSQL_ROOT_PASSWORD
           valueFrom:
             secretKeyRef:
