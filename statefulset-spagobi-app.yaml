@@ -35,9 +35,9 @@ spec:
         - name: DB_PORT_3306_TCP_PORT
           value: "3306"
         - name: DB_PORT_3306_TCP_ADDR
-          value: spagobi-mysql-svc    
+          value: spagobi-mysql   
         - name: DB_ENV_MYSQL_DATABASE
-          value: spagobi-mysql-svc  
+          value: spagobi-mysql  
         volumeMounts:
         - name: spagobi-app-storage
           mountPath: /var/www/html
