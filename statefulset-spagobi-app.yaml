@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: spagobi
+  labels:
+    app: spagobi
+spec:
+  serviceName: spagobi-mysql-svc
+  updateStrategy:
+    type: RollingUpdate
+  replicas: 3
+  selector:
+    matchLabels:
+      app: spagobi
+  template:
+    metadata:
+      labels:
+        app: spagobi
+    spec:
+      terminationGracePeriodSeconds: 30
+      containers:
+      - name: spagobi
+        image: spagobilabs/spagobi
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        env:
+        - name: MYSQL_USER
+          value: "spagobi_user"
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-pass
+              key: password
+        - name: DB_PORT_3306_TCP_PORT
+          value: 3306
+        - name: DB_PORT_3306_TCP_ADDR
+          value: spagobi-mysql     
+        - name: DB_ENV_MYSQL_DATABASE
+          value: spagobi-mysql   
+        volumeMounts:
+        - name: spagobi-app-storage
+          mountPath: /var/www/html
+  volumeClaimTemplates:
+  - metadata:
+      name: spagobi-app-storage
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "local-path"
+      resources:
+        requests:
+          storage: 20Gi
