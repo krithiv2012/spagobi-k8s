@@ -1,66 +1,66 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: spagobi-mysql
-  labels:
-    app: spagobi
-spec:
-  ports:
-    - port: 3306
-  selector:
-    app: spagobi
-    tier: mysql
-  clusterIP: None
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: mysql-pv-claim
-  labels:
-    app: spagobi
-spec:
-  accessModes:
-    - ReadWriteOnce
-  storageClassName: local-path
-  resources:
-    requests:
-      storage: 20Gi
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: spagobi-mysql
-  labels:
-    app: spagobi
-spec:
-  selector:
-    matchLabels:
-      app: spagobi
-      tier: mysql
-  strategy:
-    type: Recreate
-  template:
-    metadata:
-      labels:
-        app: spagobi
-        tier: mysql
-    spec:
-      containers:
-      - image: mysql:5.5
-        name: mysql
-        env:
-        - name: MYSQL_ROOT_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: mysql-pass
-              key: password
-        ports:
-        - containerPort: 3306
-          name: mysql
-        volumeMounts:
-        - name: mysql-persistent-storage
-          mountPath: /var/lib/mysql
-      volumes:
-      - name: mysql-persistent-storage
-        persistentVolumeClaim:
-          claimName: mysql-pv-claim
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: spagobi-mysql
+#   labels:
+#     app: spagobi
+# spec:
+#   ports:
+#     - port: 3306
+#   selector:
+#     app: spagobi
+#     tier: mysql
+#   clusterIP: None
+# ---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: mysql-pv-claim
+#   labels:
+#     app: spagobi
+# spec:
+#   accessModes:
+#     - ReadWriteOnce
+#   storageClassName: local-path
+#   resources:
+#     requests:
+#       storage: 20Gi
+# ---
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: spagobi-mysql
+#   labels:
+#     app: spagobi
+# spec:
+#   selector:
+#     matchLabels:
+#       app: spagobi
+#       tier: mysql
+#   strategy:
+#     type: Recreate
+#   template:
+#     metadata:
+#       labels:
+#         app: spagobi
+#         tier: mysql
+#     spec:
+#       containers:
+#       - image: mysql:5.5
+#         name: mysql
+#         env:
+#         - name: MYSQL_ROOT_PASSWORD
+#           valueFrom:
+#             secretKeyRef:
+#               name: mysql-pass
+#               key: password
+#         ports:
+#         - containerPort: 3306
+#           name: mysql
+#         volumeMounts:
+#         - name: mysql-persistent-storage
+#           mountPath: /var/lib/mysql
+#       volumes:
+#       - name: mysql-persistent-storage
+#         persistentVolumeClaim:
+#           claimName: mysql-pv-claim

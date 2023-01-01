@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: spagobi-mysql
+  labels:
+    app: spagobi
+spec:
+  serviceName: spagobi-mysql
+  replicas: 3
+  selector:
+    matchLabels:
+      app: spagobi-mysql
+  template:
+    metadata:
+      labels:
+        app: spagobi-mysql
+    spec:
+      terminationGracePeriodSeconds: 1800
+      containers:
+      - name: spagobi
+        image: mysql:5.5
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3306
+        resources:
+          limits:
+            cpu: "500m"
+            memory: 1Gi
+          requests:
+            cpu: "500m"
+            memory: 1Gi
+        lifecycle:
+          preStop:
+            exec:
+              command: 
+              - /bin/sh
+              - -c
+              - nodetool drain
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-pass
+              key: password
+        readinessProbe:
+          exec:
+            command:
+            - /bin/bash
+            - -c
+            - /ready-probe.sh
+          initialDelaySeconds: 15
+          timeoutSeconds: 5
+        # These volume mounts are persistent. They are like inline claims,
+        # but not exactly because the names need to match exactly one of
+        # the stateful pod volumes.
+        volumeMounts:
+        - name: spagobi-mysql-storage
+          mountPath: /var/lib/mysql
+  # These are converted to volume claims by the controller
+  # and mounted at the paths mentioned above.
+  # do not use these in production until ssd GCEPersistentDisk or other ssd pd
+  volumeClaimTemplates:
+  - metadata:
+      name: spagobi-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: local-path
+      resources:
+        requests:
+          storage: 20Gi
