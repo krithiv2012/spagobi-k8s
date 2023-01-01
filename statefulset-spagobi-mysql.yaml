@@ -28,7 +28,7 @@ spec:
         - name: DB_ENV_MYSQL_DATABASE
           value: "spagobidb"
         - name: DB_ENV_MYSQL_USER
-          value: "root@192.168.18.131"
+          value: "spagobi_user@192.168.18.131"
         - name: DB_ENV_MYSQL_PASSWORD
           valueFrom:
             secretKeyRef:
