@@ -19,7 +19,7 @@ metadata:
   labels:
     app: spagobi-mysql
 spec:
-  serviceName: spagobi-mysql
+  serviceName: spagobi-mysqlsvc
   updateStrategy:
     type: RollingUpdate
   replicas: 3
