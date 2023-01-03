@@ -25,16 +25,16 @@ spec:
         ports:
         - containerPort: 3306
         env:
-        - name: DB_ENV_MYSQL_DATABASE
+        - name: MYSQL_DATABASE
           value: "spagobi"
-        - name: DB_ENV_MYSQL_USER
-          value: "spagobi_user@192.168.18.131"
-        - name: DB_ENV_MYSQL_PASSWORD
+        - name: ENV_MYSQL_USER
+          value: "spagobi_user"
+        - name: MYSQL_PASSWORD
           valueFrom:
             secretKeyRef:
               name: mysql-pass
               key: password
-        - name: DB_ENV_MYSQL_ROOT_PASSWORD
+        - name: MYSQL_ROOT_PASSWORD
           valueFrom:
             secretKeyRef:
               name: mysql-pass
